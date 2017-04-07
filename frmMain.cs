@@ -113,7 +113,7 @@ namespace rensenWare_forcer
         private void btnForce_Click(object sender, EventArgs e)
         {
             uint outvar;
-            byte[] overscore = BitConverter.GetBytes(40000000);
+            byte[] overscore = { 0x3B, 0x9A, 0xC9, 0xFF };
 
             if (handle != 0)
             {
