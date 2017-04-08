@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -41,7 +41,7 @@ namespace rensenWare_forcer
             btnSee.Click += new EventHandler(
                     (obj, arg) =>
                     {
-                        Process.Start("https://virustotal.com/ko/file/7bf5623f0a10dfa148a35bebd899b7758612f1693d2a9910f716cf15a921a76a/analysis/1491487316/");                    
+                        Process.Start("https://virustotal.com/ko/file/7bf5623f0a10dfa148a35bebd899b7758612f1693d2a9910f716cf15a921a76a/analysis/1491487316/");
                     }
                 );
 
@@ -50,6 +50,12 @@ namespace rensenWare_forcer
                 while (true)
                 {
                     var processes = Process.GetProcessesByName("th12");
+
+                    if(processes.Length == 0) LabelStatus.Invoke(new MethodInvoker(() =>
+                                                {
+                                                    LabelStatus.Text = "Process NOT FOUND!";
+                                                }));
+
                     foreach (var process in processes)
                     {
                         try
@@ -67,6 +73,10 @@ namespace rensenWare_forcer
                         var readLevel = ReadProcessMemory(handle, LevelPtr, buffer, 4, out outvar);
                         if (!readLevel)
                         {
+                            LabelStatus.Invoke(new MethodInvoker(() =>
+                            {
+                                LabelStatus.Text = "Process Killed!";
+                            }));
                             break;
                         }
                         else if (BitConverter.ToInt32(buffer, 0) != 3)
@@ -87,15 +97,17 @@ namespace rensenWare_forcer
                         var readScore = ReadProcessMemory(handle, ScorePtr, buffer, 4, out outvar);
                         if (!readScore)
                         {
+                            LabelStatus.Invoke(new MethodInvoker(() =>
+                            {
+                                LabelStatus.Text = "Process Killed!";
+                            }));
                             break;
                         }
-                        else if (BitConverter.ToInt32(buffer, 0) < 20000000)
+
+                        LabelScore.Invoke(new MethodInvoker(() =>
                         {
-                            LabelScore.Invoke(new MethodInvoker(() =>
-                            {
-                                LabelScore.Text = BitConverter.ToInt32(buffer, 0).ToString();
-                            }));
-                        }
+                            LabelScore.Text = (BitConverter.ToInt32(buffer, 0) * 10).ToString();
+                        }));
 
                         break;
                     }
@@ -113,13 +125,20 @@ namespace rensenWare_forcer
         private void btnForce_Click(object sender, EventArgs e)
         {
             uint outvar;
-            byte[] overscore = { 0xFF, 0xC9, 0x9A, 0x3B }; // Maximum value of touhou is 999,999,999
-                                                           // Modified as Little Endian
+            int tryval;
+
+            if(!int.TryParse(Inputs.Text, out tryval) || tryval < 0 || tryval > 99999999)
+            {
+                Inputs.Text = "NOT VALID VALUE!";
+                return;
+            }
+
+            byte[] overscore = BitConverter.GetBytes(tryval);
 
             if (handle != 0)
             {
                 var _try = WriteProcessMemory(handle, ScorePtr, overscore, 4, out outvar);
-                if(!_try)
+                if (!_try)
                 {
                     MessageBox.Show("Failed to modify memory. try again.");
                     return;
