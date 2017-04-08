@@ -113,7 +113,8 @@ namespace rensenWare_forcer
         private void btnForce_Click(object sender, EventArgs e)
         {
             uint outvar;
-            byte[] overscore = { 0x3B, 0x9A, 0xC9, 0xFF };
+            byte[] overscore = { 0xFF, 0xC9, 0x9A, 0x3B }; // Maximum value of touhou is 999,999,999
+                                                           // Modified as Little Endian
 
             if (handle != 0)
             {
