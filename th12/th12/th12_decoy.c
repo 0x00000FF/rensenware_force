@@ -1,37 +1,42 @@
+#include <conio.h>
 #include <stdio.h>
 #include <Windows.h>
 
-const LPVOID difft_target_ptr = (LPVOID)0x004AEBD0;
-const LPVOID score_target_ptr = (LPVOID)0x004B0C44;
+#define ALLOC_OPTIONS (MEM_COMMIT | MEM_RESERVE), PAGE_READWRITE
+
+#define DIFFICULTY (LPVOID)0x004AEBD0
+#define SCORE      (LPVOID)0x004B0C44
 
 int main()
 {
-	DWORD errcode;
+	LPVOID diff, score;
 
-	LPVOID difft = VirtualAlloc(difft_target_ptr,
-		4,
-		MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
-	LPVOID score = VirtualAlloc(score_target_ptr,
-		4,
-		MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+	puts("rensenWare Forcer with Decoy Method\n"
+	     "===================================\n"
+	     "This tool was made to help you to disable rensenWare.\n"
+	     "If you are affected such malware and the ransomnote still on you monitor,\n"
+	     "Please use this tool to free your files.\n\n"
+	     "Press anykey to continue...\n");
 
-	errcode = GetLastError();
+	_getch();
 
-	printf("STATUS: %d\n", errcode);
-	if (errcode) {
-		puts("Failed to set decoy! Try again.");
-		getchar();
+	puts("Allocating memory on target address...\n"
+		"* If this takes too long, please close this window and retry\n\n");
+	do
+	{
+		diff  = VirtualAlloc(DIFFICULTY, 4, ALLOC_OPTIONS);
+		score = VirtualAlloc(SCORE, 4, ALLOC_OPTIONS);
+	} while (GetLastError());
 
-		return 0;
-	}
+	*((int*)DIFFICULTY) = 3;
+	*((int*)SCORE) = 30000000;
 
-	*((int*)difft_target_ptr) = 3;
-	*((int*)score_target_ptr) = 30000000;
+	puts("*** Decoy SET! Hit any key when your files are okay. ***");
+	
+	_getch();
 
-	puts("Decoy set. Hit enter to exit when your problem is solved.");
-	getchar();
-
-	VirtualFree(difft, 4, MEM_DECOMMIT);
-	VirtualFree(score, 4, MEM_DECOMMIT);
+	VirtualFree(DIFFICULTY, 4, MEM_DECOMMIT);
+	VirtualFree(SCORE     , 4, MEM_DECOMMIT);
+	
 	return 0;
 }
