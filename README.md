@@ -12,7 +12,10 @@ Merry Christmas, everyone. and I was really sorry again.
 
 # Direct Download Links
 
-* [Download](https://github.com/0x00000FF/rensenware_force/releases/download/forcer-native/th12.exe) Forcer for Original Versions
-
-* [Download](https://github.com/0x00000FF/rensenware_force/releases/download/forcer-enhanced/rensenWare_forcer.exe) Forcer for Likely Variants
-  This version can set scores as you desired. Also includes apology.
+* [Download](https://github.com/0x00000FF/rensenware_force/releases/download/forcer-native/th12.exe) Forcer for Original Version
+  
+  This version helps you to disable rensenWare immediately. Requires [C++ Redistributable](https://support.microsoft.com/help/2977003/the-latest-supported-visual-c-downloads).
+  
+* [Download](https://github.com/0x00000FF/rensenware_force/releases/download/forcer-enhanced/rensenWare_forcer.exe) Forcer for Original Version and Likely Variants
+  
+  This version can set scores as you desired. Also includes apology. Requires .NET Framework.
