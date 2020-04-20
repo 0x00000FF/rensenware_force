@@ -10,6 +10,9 @@ Made more simple version of rensenWare Forcer, just run th12.exe without touhou 
 
 Merry Christmas, everyone. and I was really sorry again.
 
+# non-Windows variants
+I never got about the non-Windows variants of rensenWare, So I have no forcer for it. If you have any information of them, please report to me.
+
 # Direct Download Links
 
 * [Download](https://github.com/0x00000FF/rensenware_force/releases/download/forcer-native/th12.exe) Forcer for Original Version
